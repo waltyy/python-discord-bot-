@@ -10,6 +10,9 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix=".", intents=intents)
 
+icons = {"scissors":"✂️", 
+          "paper": "🧾",
+         "rock":"🗿"}
 
 @bot.command(name="roll")
 async def roll(ctx, num):
@@ -67,21 +70,21 @@ async def rps(ctx, message):
     await ctx.channel.send("To play Rock, Paper, Scissors with me, enter '.rps rock/paper/scissors'")
   else:
     if computers_answer == answer:
-      await ctx.channel.send(f"Tie! We both picked {answer}")
+      await ctx.channel.send(f"Tie! We both picked {icons[answer]}")
     elif computers_answer == "rock":
       if answer == "paper":
-        await ctx.channel.send(f"You win! I picked {computers_answer} and you picked {answer}")
+        await ctx.channel.send(f"You win! I picked {icons[computers_answer]} and you picked {icons[answer]}")
       elif answer == "scissors":
-        await ctx.channel.send(f"You lose:( I picked {computers_answer} and you picked {answer}")
+        await ctx.channel.send(f"You lose:( I picked {icons[computers_answer]} and you picked {icons[answer]}")
     elif computers_answer == "paper":
       if answer == "scissors":
-        await ctx.channel.send(f"You win! I picked {computers_answer} and you picked {answer}")
+        await ctx.channel.send(f"You win! I picked {icons[computers_answer]} and you picked {icons[answer]}")
       elif answer == "rock":
-        await ctx.channel.send(f"You lose:( I picked {computers_answer} and you picked {answer}")
+        await ctx.channel.send(f"You lose:( I picked {icons[computers_answer]} and you picked {icons[answer]}")
     elif computers_answer == "scissors":
       if answer == "rock":
-        await ctx.channel.send(f"You win! I picked {computers_answer} and you picked {answer}")
+        await ctx.channel.send(f"You win! I picked {icons[computers_answer]} and you picked {icons[answer]}")
       elif answer == "paper":
-        await ctx.channel.send(f"You lose:( I picked {computers_answer} and you picked {answer}")
+        await ctx.channel.send(f"You lose:( I picked {icons[computers_answer]} and you picked {icons[answer]}")
 
 bot.run(TOKEN)
