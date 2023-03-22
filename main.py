@@ -33,14 +33,14 @@ async def ask(ctx, *words):
 @bot.command(name="joke", aliases=["jokes", "j", "J"])  #aliases means it run the funtion if the user spells joke with an s or if the user simply puts /j
 async def joke(ctx):
   j = await Jokes()
-'''
+  '''
   blacklist = ["racist"]
   if not ctx.message.channel.is_nsfw():
     blacklist.append("nsfw")
   '''
   #the blacklist code is from the jokeapi package and it makes sure that the "racist" jokes dont come up when it is in the blacklist list. The       "blacklist.append" adds the "nsfw" to the blacklist list IF the channel is not nsfw which works with line 38. To make sure the blacklist code       works i have to add (blacklist=blacklist) to line 42.
-    joke = await j.get_joke()
-    msg = ""
+  joke = await j.get_joke()
+  msg = ""
   if joke["type"] == "single":
     msg = joke["joke"]
     #this code makes the joke in one line.
