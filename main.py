@@ -8,20 +8,21 @@ TOKEN = os.environ['MY_TOKEN']
 intents = discord.Intents.default()
 intents.message_content = True
 
-#this code makes "." the start of the user input so that if a user says ".joke" the bot will know that the user is talking to it and will run the joke function. this also helps if the user says "joke" in a sentence, the bot won't run because the "." isn't infront of the joke.
 bot = commands.Bot(command_prefix=".", intents=intents)
 
-#this code turns the words "rock", "paper", "scissors" into emojis so that it will be easier for the user to read and know what the bot has responded with.
 icons = {"scissors":"✂️", 
           "paper": "🧾",
          "rock":"🗿"}
 
-#dice function that rolls a number from 1-6. The user sends a specific number of times the dice is supposed to rolled (for loop).
+#Dice function that rolls a number from 1-6. The user sends a specific number of times the dice is supposed to rolled (for loop).
 @bot.command(name="roll")
-async def roll(ctx, num):
+async def roll(ctx, num=0):
+  if int(num) == 0:
+    await ctx.channel.send("You have to send me a number of rolls you want me to do E.g '.roll 5'")
   for i in range(int(num)):
     d = random.randint(1, 6)
     await ctx.channel.send(f"Rolling a Dice : {d}")
+
 
 
 @bot.command(name="ask")
@@ -36,7 +37,6 @@ async def ask(ctx, *words):
     await ctx.channel.send("That's not a question")
 
 
-#joke function:
 @bot.command(name="joke", aliases=["jokes", "j", "J"])  #aliases means it run the funtion if the user spells joke with an s or if the user simply puts /j
 async def joke(ctx):
   j = await Jokes()
@@ -45,7 +45,7 @@ async def joke(ctx):
   if not ctx.message.channel.is_nsfw():
     blacklist.append("nsfw")
   '''
-  #the blacklist code is from the jokeapi package and it makes sure that the "racist" jokes dont come up when it is in the blacklist list. The       "blacklist.append" adds the "nsfw" to the blacklist list IF the channel is not nsfw which works with line 38. To make sure the blacklist code       works i have to add (blacklist=blacklist) to line 42.
+  #the blacklist code is from the jokeapi package and it makes sure that the "racist" jokes dont come up when it is in the blacklist list. The "blacklist.append" adds the "nsfw" to the blacklist list IF the channel is not nsfw which works with line 38. To make sure the blacklist code works i have to add (blacklist=blacklist) to line 42.
   joke = await j.get_joke()
   msg = ""
   if joke["type"] == "single":
@@ -66,13 +66,11 @@ async def joke(ctx):
 @bot.command(name = "rps")
 async def rps(ctx, message):
   answer = message.lower()
-  choices = ["rock", "paper", "scissors", "help", ""]
+  choices = ["rock", "paper", "scissors", "help"]
   computers_answer =  random.choice(choices)
   if answer not in choices:
     await ctx.channel.send("That is not an option in the game paper, scissors, rock.")
   elif answer == "help":
-    await ctx.channel.send("To play Rock, Paper, Scissors with me, enter '.rps rock/paper/scissors'")
-  elif answer == "":
     await ctx.channel.send("To play Rock, Paper, Scissors with me, enter '.rps rock/paper/scissors'")
   else:
     if computers_answer == answer:
@@ -93,4 +91,10 @@ async def rps(ctx, message):
       elif answer == "paper":
         await ctx.channel.send(f"You lose:( I picked {icons[computers_answer]} and you picked {icons[answer]}")
 
+
+@bot.command(name = "spam")
+async def spam(ctx, member:discord.Member, num = 10):
+  for i in range(num):
+    await ctx.channel.send(member.mention,)
+  
 bot.run(TOKEN)
