@@ -96,5 +96,9 @@ async def rps(ctx, message):
 async def spam(ctx, member:discord.Member, num = 10):
   for i in range(num):
     await ctx.channel.send(member.mention + str(" wake up!"))
+
+@bot.event
+async def on_member_join(member):
+  await member.channel.send(f"{member.name} has joined")
   
 bot.run(TOKEN)
