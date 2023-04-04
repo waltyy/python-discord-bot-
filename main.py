@@ -95,6 +95,6 @@ async def rps(ctx, message):
 @bot.command(name = "spam")
 async def spam(ctx, member:discord.Member, num = 10):
   for i in range(num):
-    await ctx.channel.send(member.mention,)
+    await ctx.channel.send(member.mention + str(" wake up!"))
   
 bot.run(TOKEN)
